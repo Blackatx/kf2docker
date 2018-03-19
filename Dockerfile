@@ -47,7 +47,7 @@ USER kf2server
 ENV TERM=xterm
 
 
-ENV PATH=$PATH:/home/lgsm
+ENV PATH=$PATH:/home/kf2server
 
 COPY main.sh /main.sh
 
