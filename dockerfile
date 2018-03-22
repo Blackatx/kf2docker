@@ -2,7 +2,7 @@
 FROM debian:testing
 
 MAINTAINER "Blackatx"
-LABEL version ="0.1.2.2203181414"
+LABEL version ="0.1.2.2203181416"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER kf2
@@ -35,7 +35,7 @@ RUN mkdir -p $STEAMCMD && \
 
 ADD ./kf2start.sh $HOME/kf2start.sh
 ADD ./main.sh $HOME/main.sh
-RUN chmod 700 $USER $HOME/main.sh
+RUN chmod 700 $HOME/main.sh
 
 WORKDIR $HOME
 USER $USER
