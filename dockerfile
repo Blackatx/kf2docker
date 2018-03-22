@@ -2,7 +2,7 @@
 FROM debian:testing
 
 MAINTAINER "Blackatx"
-LABEL version ="0.1.2"
+LABEL version ="0.1.2.2203181348"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER kf2
@@ -31,11 +31,16 @@ RUN mkdir -p /steamcmd && \
     curl -s https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar -vxz && \
 	chown -R $USER /steamcmd
 	
+
+
+ADD ./kf2start.sh $HOME/kf2start.sh
+ADD ./main.sh $HOME/main.sh
+RUN chown $USER $HOME/main.sh
+
 WORKDIR $HOME
 USER $USER
 
-ADD ./kf2start.sh $HOME/kf2start.sh
-RUN ./main.sh $HOME $STEAMCMD
+RUN $HOME/main.sh $HOME $STEAMCMD
 
 
 # Steam port
@@ -49,6 +54,10 @@ EXPOSE 7777/udp
 
 # Web Admin port
 EXPOSE 8080/tcp
+
+#NTP PORT
+EXPOSE 123/UDP
+
 
 ENTRYPOINT [ "/kf2start.sh" ]
 
