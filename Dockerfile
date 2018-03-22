@@ -4,12 +4,14 @@ FROM debian:testing
 LABEL maintainer "Blackatx"
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV USER kf2
+ENV HOME /home/$USER
+ENV STEAMCMD $HOME/steamcmd
 
 RUN \
-	dpkg --add-architecture i386 && \
 	apt-get -y update && \
-	apt-get -y install mailutils \
-						postfix \
+	apt-get -y upgrade && \
+	apt-get -y install 
 						curl \
 						wget \
 						file \
@@ -17,39 +19,33 @@ RUN \
 						gzip \
 						unzip \
 						nano \
-						bsdmainutils \
-						python \
-						util-linux \
-						ca-certificates \
-						binutils \
-						bc \
-						tmux \
 						lib32gcc1 \
-						libstdc++6 \
-						libstdc++6:i386 && \
+						net-tools \
+						lib32stdc++6 && \
 	apt-get clean && \
 	rm -rf /var/cache/apk/*
 	
-## Get Linux GameServerManager
-RUN wget https://linuxgsm.com/dl/linuxgsm.sh
 
-## User Config (User:kf2sever)
-RUN adduser -m --disabled-password --gecos "" kf2server && \
-	chown kf2server:kf2server /linuxgsm.sh && \
-	chmod +x /linuxgsm.sh && \
-	cp /linuxgsm.sh /home/kf2server/linuxgsm.sh && \
-	bash linuxgsm.sh kf2server
+## User Config
+RUN adduser \
+	--home $HOME \
+	--disabled-password \
+	--shell /bin/bash \
+	--gecos "user for running steam" \
+	--quiet \
+$USER
 
-WORKDIR /home/kf2server
-USER kf2server
+WORKDIR $HOME
+USER $USER
 
-#need to fake it linuxgsm
-ENV TERM=xterm
+RUN mkdir -p /steamcmd &&\
+    cd /steamcmd &&\
+    curl -s https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar -vxz &&\
+	chown -R $USER /steamcmd
 
+ADD ./kf2start.sh $HOME/kf2start.sh
+RUN ./main.sh $HOME $STEAMCMD
 
-ENV PATH=$PATH:/home/kf2server
-
-COPY main.sh /main.sh
 
 # Steam port
 EXPOSE 20560/udp
@@ -63,5 +59,5 @@ EXPOSE 7777/udp
 # Web Admin port
 EXPOSE 8080/tcp
 
-ENTRYPOINT [ "/main.sh" ]
+ENTRYPOINT [ "/kf2start.sh" ]
 
