@@ -2,6 +2,9 @@
 
 With this files you can start a Container with a Killing Floor 2 Gameserver inside.
 
+Current State: Not Working
+Im Working on it
+
 Start
 =====
 
