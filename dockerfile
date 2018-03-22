@@ -2,7 +2,7 @@
 FROM debian:testing
 
 MAINTAINER "Blackatx"
-LABEL version ="0.1.2.2203181412"
+LABEL version ="0.1.2.2203181414"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER kf2
@@ -40,7 +40,7 @@ RUN chmod 700 $USER $HOME/main.sh
 WORKDIR $HOME
 USER $USER
 
-RUN $HOME/main.sh $HOME $STEAMCMD
+RUN $HOME/main.sh $STEAMCMD $HOME 
 
 
 # Steam port
