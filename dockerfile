@@ -29,13 +29,16 @@ RUN mkdir -p /home/kf2/steamcmd && \
 	chown -R kf2 /home/kf2/steamcmd
 	
 
+RUN mkdir /home/kf2/serverconfig
+RUN chown -R kf2 /home/kf2/serverconfig
 
-ADD ./kf2start.sh /home/kf2/kf2start.sh
-ADD ./main.sh /home/kf2/main.sh
-RUN chmod 777 /home/kf2/main.sh
+VOLUME /home/kf2/serverconfig
 
 WORKDIR /home/kf2
 USER kf2
+
+ADD ./kf2start.sh /home/kf2/kf2start.sh
+ADD ./main.sh /home/kf2/main.sh
 
 # Steam port
 EXPOSE 20560/udp
