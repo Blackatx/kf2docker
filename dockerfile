@@ -2,7 +2,7 @@
 FROM debian:testing
 
 MAINTAINER "Blackatx"
-LABEL version ="0.1.2.2203181348"
+LABEL version ="0.1.2.2203181412"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER kf2
@@ -26,16 +26,16 @@ RUN adduser \
 	--quiet \
 $USER
 
-RUN mkdir -p /steamcmd && \
-    cd /steamcmd && \
+RUN mkdir -p $STEAMCMD && \
+    cd $STEAMCMD && \
     curl -s https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar -vxz && \
-	chown -R $USER /steamcmd
+	chown -R $USER $STEAMCMD
 	
 
 
 ADD ./kf2start.sh $HOME/kf2start.sh
 ADD ./main.sh $HOME/main.sh
-RUN chown $USER $HOME/main.sh
+RUN chmod 700 $USER $HOME/main.sh
 
 WORKDIR $HOME
 USER $USER
