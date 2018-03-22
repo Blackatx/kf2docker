@@ -2,7 +2,7 @@
 FROM debian:testing
 
 MAINTAINER "Blackatx"
-LABEL version ="0.1.2.2203181416"
+LABEL version ="0.1.3"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER kf2
@@ -56,7 +56,7 @@ EXPOSE 7777/udp
 EXPOSE 8080/tcp
 
 #NTP PORT
-EXPOSE 123/UDP
+EXPOSE 123/udp
 
 
 ENTRYPOINT [ "/kf2start.sh" ]
