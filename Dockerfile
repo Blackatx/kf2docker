@@ -1,7 +1,8 @@
 # Download Debian Testing as Base Image(Change to Stable if you dont like Testing)
 FROM debian:testing
 
-LABEL maintainer "Blackatx"
+MAINTAINER "Blackatx"
+LABEL version ="0.1.2"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER kf2
@@ -11,17 +12,7 @@ ENV STEAMCMD $HOME/steamcmd
 RUN \
 	apt-get -y update && \
 	apt-get -y upgrade && \
-	apt-get -y install 
-						curl \
-						wget \
-						file \
-						bzip2 \
-						gzip \
-						unzip \
-						nano \
-						lib32gcc1 \
-						net-tools \
-						lib32stdc++6 && \
+	apt-get -y install curl wget file bzip2 gzip unzip nano lib32gcc1 net-tools lib32stdc++6 && \
 	apt-get clean && \
 	rm -rf /var/cache/apk/*
 	
@@ -35,13 +26,13 @@ RUN adduser \
 	--quiet \
 $USER
 
+RUN mkdir -p /steamcmd && \
+    cd /steamcmd && \
+    curl -s https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar -vxz && \
+	chown -R $USER /steamcmd
+	
 WORKDIR $HOME
 USER $USER
-
-RUN mkdir -p /steamcmd &&\
-    cd /steamcmd &&\
-    curl -s https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar -vxz &&\
-	chown -R $USER /steamcmd
 
 ADD ./kf2start.sh $HOME/kf2start.sh
 RUN ./main.sh $HOME $STEAMCMD
