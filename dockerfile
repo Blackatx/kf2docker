@@ -5,9 +5,6 @@ MAINTAINER "Blackatx"
 LABEL version ="0.1.3"
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV USER kf2
-ENV HOME /home/$USER
-ENV STEAMCMD $HOME/steamcmd
 
 RUN \
 	apt-get -y update && \
@@ -19,28 +16,28 @@ RUN \
 
 ## User Config
 RUN adduser \
-	--home $HOME \
+	--home /home/kf2 \
 	--disabled-password \
 	--shell /bin/bash \
 	--gecos "user for running steam" \
 	--quiet \
-$USER
+kf2
 
-RUN mkdir -p $STEAMCMD && \
-    cd $STEAMCMD && \
+RUN mkdir -p /home/kf2/steamcmd && \
+    cd /home/kf2/steamcmd && \
     curl -s https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar -vxz && \
-	chown -R $USER $STEAMCMD
+	chown -R kf2 /home/kf2/steamcmd
 	
 
 
-ADD ./kf2start.sh $HOME/kf2start.sh
-ADD ./main.sh $HOME/main.sh
-RUN chmod 777 $HOME/main.sh
+ADD ./kf2start.sh /home/kf2/kf2start.sh
+ADD ./main.sh /home/kf2/main.sh
+RUN chmod 777 /home/kf2/main.sh
 
-WORKDIR $HOME
-USER $USER
+WORKDIR /home/kf2
+USER kf2
 
-RUN $HOME/main.sh $STEAMCMD $HOME 
+RUN /home/kf2/main.sh /home/kf2/steamcmd /home/kf2 
 
 
 # Steam port
