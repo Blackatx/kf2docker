@@ -35,7 +35,7 @@ RUN mkdir -p $STEAMCMD && \
 
 ADD ./kf2start.sh $HOME/kf2start.sh
 ADD ./main.sh $HOME/main.sh
-RUN chmod 700 $HOME/main.sh
+RUN chmod 777 $HOME/main.sh
 
 WORKDIR $HOME
 USER $USER
