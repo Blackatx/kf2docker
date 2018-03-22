@@ -37,16 +37,13 @@ RUN chmod 777 /home/kf2/main.sh
 WORKDIR /home/kf2
 USER kf2
 
-RUN /home/kf2/main.sh /home/kf2/steamcmd /home/kf2 
-
-
 # Steam port
 EXPOSE 20560/udp
 
-# Query port - used to communicate with the master server
+# Query port
 EXPOSE 27015/udp
 
-# Game port - primary comms with players
+# Game port
 EXPOSE 7777/udp
 
 # Web Admin port
@@ -56,5 +53,5 @@ EXPOSE 8080/tcp
 EXPOSE 123/udp
 
 
-ENTRYPOINT [ "/kf2start.sh" ]
+ENTRYPOINT [ "/main.sh" ]
 
